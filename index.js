@@ -54,7 +54,7 @@ app.get('/api/shorturl/:id',(req,res) =>{
     // console.log(url);
   res.redirect(url);
   } else {
-    res.json({error:"Invalid Url"});
+    res.json({error:"invalid url"});
   }
 
   
@@ -73,7 +73,7 @@ app.route('/api/shorturl')
   if(validateUrl(url)){
     // console.log(url);
     // console.log("fail2");
-    res.json({error:'Invalid URL'});
+    res.json({error:'invalid url'});
     
   } else {
   if (urls.includes(url)){
