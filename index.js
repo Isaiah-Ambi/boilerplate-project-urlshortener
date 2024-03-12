@@ -52,7 +52,6 @@ app.get('/api/shorturl/:id',(req,res) =>{
     res.json({error:"invalid url"});
   }
 
-  
 });
 
 
@@ -84,7 +83,7 @@ app.route('/api/shorturl')
     } else {
       urls.push(url);
       // console.log("new url");
-    res.json({original_url:url,short_url:short});
+    res.json({original_url:url,short_url:urls.indexOf(url)});
     }
     });
   } else {
