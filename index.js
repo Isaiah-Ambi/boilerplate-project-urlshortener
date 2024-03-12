@@ -15,23 +15,18 @@ app.use(express.urlencoded({extended: true}));
 
 const dns = require('dns');
 
+
 function validateUrl(url) {
-  const regex = /^http:\/\/www\.example\.com$/; // Regular expression to match the format
-  const regex2 = /^https:\/\/www\.example\.com$/;
-  if(regex.test(url) || regex2.test(url)){
-    dns.lookup(url, (err, address) => {
-      if (err) {
-        // console.error('Error:', err);
-        // console.log("fail");
-        return false;
-      } else {
-        // console.log("pass");
-        return true;
-      }
-    });
+  let con = url.startsWith("http");
+  let valid;
+  if(con){
+    // console.log(lookUp(url))
+    return true
+    
   } else {
-    // console.log("fail1")
-    return false;
+    console.log('URL must start with http or https');
+    // valid = false;
+    return false
   }
   
 }
@@ -68,24 +63,39 @@ app.route('/api/shorturl')
 .post((req, res) =>{
 
   const url = req.body.url;
-  // console.log(url);
+  // console.log(validateUrl(url));
+  let con = validateUrl(url);
+  // console.log(con)
+  if(con){
 
-  if(validateUrl(url)){
-    // console.log(url);
-    // console.log("fail2");
-    res.json({error:'invalid url'});
-    
-  } else {
-  if (urls.includes(url)){
-    // console.log("exists");
+    dns.lookup(url, (err, address) => {
+      if (err) {
+        console.error('Error:', err);
+        res.json({error:'invalid url'});
+        // return false
+      }
+      console.log('Address:', address);
+      console.log("valid");
+
+      if(urls.includes(url)){
+      // console.log("exists");
+      res.json({original_url:url,short_url:urls.indexOf(url)});
+    } else {
+      urls.push(url);
+      // console.log("new url");
     res.json({original_url:url,short_url:urls.indexOf(url)});
+    }
+    });
   } else {
-    urls.push(url);
-    // console.log("new url");
-  res.json({original_url:url,short_url:urls.indexOf(url)});
-  }
-  }
-  });
+    res.json({error: "invalid url"});
+  }})
+    
+
+  // } else {
+  //   console.log("failf");
+  //   res.json({error:'invalid url'});
+  // }
+  // });
 
 
 
