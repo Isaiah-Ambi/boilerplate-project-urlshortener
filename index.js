@@ -63,6 +63,7 @@ app.route('/api/shorturl')
 .post((req, res) =>{
 
   const url = req.body.url;
+  const short = urls.indexOf(url);
   // console.log(validateUrl(url));
   let con = validateUrl(url);
   // console.log(con)
@@ -83,20 +84,13 @@ app.route('/api/shorturl')
     } else {
       urls.push(url);
       // console.log("new url");
-    res.json({original_url:url,short_url:urls.indexOf(url)});
+    res.json({original_url:url,short_url:short});
     }
     });
   } else {
     res.json({error: "invalid url"});
   }})
     
-
-  // } else {
-  //   console.log("failf");
-  //   res.json({error:'invalid url'});
-  // }
-  // });
-
 
 
 app.listen(port, function() {
