@@ -65,7 +65,7 @@ app.route('/api/shorturl')
   const short = urls.indexOf(url);
   // console.log(validateUrl(url));
   let con = validateUrl(url);
-  // console.log(con)
+  console.log(url)
   if(con){
 
     dns.lookup(url, (err, address) => {
@@ -88,7 +88,7 @@ app.route('/api/shorturl')
     });
   } else {
     res.json({error: "invalid url"});
-    
+
   }})
     
 
